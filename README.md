@@ -1,28 +1,28 @@
 # Sticky Notes
 
-Sticky Notes ist ein einfaches To-Do-Programm, das in Python mithilfe des Tkinter-Frameworks entwickelt wurde. 
-Es ermöglicht dem Benutzer das Hinzufügen von Aufgaben, 
-das Markieren von Aufgaben als erledigt und das Speichern und Laden von Aufgaben.
+Sticky Notes is a simple to-do program developed in Python using the Tkinter framework. 
+It allows the user to add tasks, 
+mark tasks as completed and save and load tasks.
 
-## Funktionen
+## Functions
 
-- **Hinzufügen von Aufgaben**: Durch Klicken auf den "+"-Button können neue Aufgaben hinzugefügt werden.
-- **Markieren von Aufgaben als erledigt**: Jede Aufgabe hat eine Checkbox, die angeklickt werden kann, um die Aufgabe als erledigt zu markieren.
-- **Speichern von Aufgaben**: Durch Klicken auf den "Save"-Button werden alle Aufgaben in einer `.pkl`-Datei gespeichert.
-- **Laden von Aufgaben**: Durch Klicken auf den "Load"-Button werden alle Aufgaben aus der `.pkl`-Datei geladen.
+- **Adding tasks**: New tasks can be added by clicking on the "+" button.
+- **Marking tasks as completed**: Each task has a checkbox that can be clicked to mark the task as completed.
+- **Saving tasks**: By clicking on the "Save" button, all tasks are saved in a `.pkl` file.
+- **Load tasks**: Clicking on the "Load" button loads all tasks from the `.pkl` file.
 
-## Starten des Programms
+## Starting the program
 
-Um das Programm zu starten, führen Sie einfach das Python-Skript aus:
+To start the program, simply execute the Python script:
 
 ```sh
 python main.py
 ```
 
-Stellen Sie sicher, dass Sie Python und Tkinter auf Ihrem System installiert haben.
+Make sure that you have installed Python and Tkinter on your system.
 
-## Anmerkungen
+## Notes
 
-Dieses Programm verwendet das `pickle`-Modul, um die Aufgaben zu speichern und zu laden. 
-Bitte beachten Sie, dass `pickle` nicht sicher gegen fehlerhafte oder bösartig konstruierte Daten ist. 
-Verwenden Sie es nur, um Daten zu laden, die Sie selbst gespeichert haben und denen Sie vertrauen.
+This program uses the `pickle` module to save and load the tasks. 
+Please note that `pickle` is not secure against erroneous or maliciously constructed data. 
+Only use it to load data that you have saved yourself and that you trust.
