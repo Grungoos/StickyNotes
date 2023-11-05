@@ -1,8 +1,6 @@
 # Sticky Notes
 
-Sticky Notes is a simple to-do program developed in Python using the Tkinter framework. 
-It allows the user to add tasks, 
-mark tasks as completed and save and load tasks.
+Sticky Notes is a simple to-do program developed in Python using the Tkinter framework.
 
 ## Functions
 
