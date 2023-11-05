@@ -1,4 +1,5 @@
 import tkinter as tk
+import pickle
 
 title = 'Sticky Notes'
 geometry = '500x200'
@@ -8,11 +9,28 @@ topmost = '-topmost'
 transparent = '-alpha'
 window = tk.Tk()
 
+
+def save_todos():
+    todo_data = [{'text': textfield.get(), 'checked': var.get()} for checkbox, var, textfield in todos]
+    with open('todos.pkl', 'wb') as f:
+        pickle.dump(todo_data, f)
+
+
+def load_todos():
+    try:
+        with open('todos.pkl', 'rb') as f:
+            loaded_todos = pickle.load(f)
+            for todo in loaded_todos:
+                add_todo(todo['text'], todo['checked'])
+    except FileNotFoundError:
+        return []
+
+
 todos = []
 
 
 def update_transparency(value):
-    window.attributes('-alpha', float(value))
+    window.attributes(transparent, float(value))
 
 
 def create_transparency_slider(parent):
@@ -29,20 +47,24 @@ def create_transparency_slider(parent):
     slider.grid(row=0, column=0, sticky='w')
     return slider
 
+
 def pin_unpin_window():
     global is_pinned
     is_pinned = not is_pinned
     window.overrideredirect(is_pinned)
 
-def add_todo():
+
+def add_todo(todo_text="", checked=0):
     todo_frame = tk.Frame(window)
     todo_frame.pack(fill='x')
-    var = tk.IntVar()
+    var = tk.IntVar(value=checked)
     checkbox = tk.Checkbutton(todo_frame, variable=var)
     checkbox.pack(side='left')
     textfield = tk.Entry(todo_frame)
     textfield.pack(side='left', fill='x', expand=True)
-    todos.append((checkbox, textfield))
+    textfield.insert(0, todo_text)
+    todos.append((checkbox, var, textfield))
+
 
 # window
 window.title(title)
@@ -70,8 +92,20 @@ pin_button.grid(row=0, column=1, sticky='e')  # Platziert den Button in der erst
 # Setzt das weight der zweiten Spalte auf 1, sodass sie allen zusätzlichen Platz aufnimmt
 inner_frame.grid_columnconfigure(1, weight=1)
 
+# Bottom frame for buttons
+bottom_frame = tk.Frame(window)
+bottom_frame.pack(side='bottom')
+
 # + Button
-add_button = tk.Button(window, text="+", command=add_todo)
-add_button.pack(side='bottom')
+add_button = tk.Button(bottom_frame, text="+", command=add_todo)
+add_button.pack(side='left')
+
+# Save Button
+save_button = tk.Button(bottom_frame, text="Save", command=save_todos)
+save_button.pack(side='left')
+
+# Load Button
+load_button = tk.Button(bottom_frame, text="Load", command=load_todos)
+load_button.pack(side='left')
 
 window.mainloop()
