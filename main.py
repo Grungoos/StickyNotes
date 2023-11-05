@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import pickle
 
 title = 'Sticky Notes'
@@ -23,7 +24,7 @@ def load_todos():
             for todo in loaded_todos:
                 add_todo(todo['text'], todo['checked'])
     except FileNotFoundError:
-        return []
+        messagebox.showerror("Error", "No file to load")
 
 
 todos = []
