@@ -10,14 +10,22 @@ topmost = '-topmost'
 transparent = '-alpha'
 window = tk.Tk()
 
+todos = []
+
 
 def save_todos():
-    todo_data = [{'text': textfield.get(), 'checked': var.get()} for checkbox, var, textfield in todos]
+    todo_data = [{'text': textfield.get(), 'checked': var.get()} for checkbox, var, textfield, todo_frame, delete_button
+                 in todos]
     with open('todos.pkl', 'wb') as f:
         pickle.dump(todo_data, f)
 
 
 def load_todos():
+    # Before we load new todos, we remove all existing ones from the view
+    for _, _, _, todo_frame, _ in todos:
+        todo_frame.destroy()
+    todos.clear()  # Empty todo list
+
     try:
         with open('todos.pkl', 'rb') as f:
             loaded_todos = pickle.load(f)
@@ -25,9 +33,6 @@ def load_todos():
                 add_todo(todo['text'], todo['checked'])
     except FileNotFoundError:
         messagebox.showerror("Error", "No file to load")
-
-
-todos = []
 
 
 def update_transparency(value):
@@ -55,6 +60,15 @@ def pin_unpin_window():
     window.overrideredirect(is_pinned)
 
 
+def remove_todo(index):
+    """Entfernt die ausgewählte Notiz und deren Widgets."""
+    todos[index][3].destroy()  # destroy todo_frame
+    del todos[index]  # Remove the note from the list
+    # Update the commands of the delete buttons, as the indices have changed
+    for i, (_, _, _, _, delete_button) in enumerate(todos):
+        delete_button.config(command=lambda idx=i: remove_todo(idx))
+
+
 def add_todo(todo_text="", checked=0):
     todo_frame = tk.Frame(window)
     todo_frame.pack(fill='x')
@@ -64,7 +78,9 @@ def add_todo(todo_text="", checked=0):
     textfield = tk.Entry(todo_frame)
     textfield.pack(side='left', fill='x', expand=True)
     textfield.insert(0, todo_text)
-    todos.append((checkbox, var, textfield))
+    delete_button = tk.Button(todo_frame, text='X', command=lambda idx=len(todos): remove_todo(idx))
+    delete_button.pack(side='right')
+    todos.append((checkbox, var, textfield, todo_frame, delete_button))
 
 
 # window
@@ -76,11 +92,11 @@ window.attributes(transparent, 1)
 
 # pin and slider frame
 frame = tk.Frame(window)
-frame.pack(fill='x')  # Füllt das Frame in x-Richtung aus
+frame.pack(fill='x')
 
 # inner frame for slider and pin button
 inner_frame = tk.Frame(frame)
-inner_frame.pack(fill='x')  # Füllt das inner_frame in x-Richtung aus
+inner_frame.pack(fill='x')
 
 # Slider
 transparency_slider = create_transparency_slider(inner_frame)
@@ -88,9 +104,7 @@ transparency_slider = create_transparency_slider(inner_frame)
 # Pin
 is_pinned = False
 pin_button = tk.Button(inner_frame, text="Pin", command=pin_unpin_window)
-pin_button.grid(row=0, column=1, sticky='e')  # Platziert den Button in der ersten Zeile und zweiten Spalte des Grids
-
-# Setzt das weight der zweiten Spalte auf 1, sodass sie allen zusätzlichen Platz aufnimmt
+pin_button.grid(row=0, column=1, sticky='e')
 inner_frame.grid_columnconfigure(1, weight=1)
 
 # Bottom frame for buttons
@@ -98,7 +112,7 @@ bottom_frame = tk.Frame(window)
 bottom_frame.pack(side='bottom')
 
 # + Button
-add_button = tk.Button(bottom_frame, text="+", command=add_todo)
+add_button = tk.Button(bottom_frame, text="+", command=lambda: add_todo())
 add_button.pack(side='left')
 
 # Save Button
