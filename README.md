@@ -19,8 +19,11 @@ To start the program, run the Python script with the following command:
 ```sh
 python main.py
 
+# Usage Notes
 
-## Notes
+This program uses JSON serialization, which is saved in a .txt file to store the tasks. This format is more secure and readable compared to binary serialization formats such as pickle. The .txt file will be created in the same directory as the script if it doesn't already exist. Ensure that this script has the necessary permissions to read from and write to the filesystem. Always make sure that the data in the .txt file is in a proper JSON format to avoid load errors.
+
+For transparency adjustment and pinning the window, use the provided slider and "Pin" button respectively in the application interface.
 
 
-Remember to save this text in a file named `README.md` in the same directory as your `main.py` script for the Sticky Notes program. This will serve as the updated documentation for your application.
+You can save this text as a `README.md` file in your project directory where the `main.py` script is located. The Markdown format (`.md`) is commonly used for README files as it allows easy formatting and is widely supported by various platforms, including code repositories like GitHub.
