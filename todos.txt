@@ -1,1 +1,1 @@
-[{"text": "Hello", "checked": 1}, {"text": "World", "checked": 0}]
+[{"text": "", "checked": 0}, {"text": "", "checked": 0}, {"text": "", "checked": 0}]
